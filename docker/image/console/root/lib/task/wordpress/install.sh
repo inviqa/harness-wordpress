@@ -2,13 +2,6 @@
 
 function task_wordpress_install()
 {
-    passthru "bin/wp-cli.phar config create \
-        --path='${WORDPRESS_INSTALL_DIRECTORY}' \
-        --dbname='${DB_NAME}' \
-        --dbhost='${DB_HOST}' \
-        --dbuser='${DB_USER}' \
-        --dbpass='${DB_PASS}'"
-
     task "mysql:available"
 
     passthru "bin/wp-cli.phar core install \
