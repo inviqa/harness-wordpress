@@ -32,6 +32,6 @@ else
     run docker-compose -p "$NAMESPACE" start
 fi
 
-if [ "$APP_BUILD" = "dynamic" ]; then
-    [[ "$USE_DOCKER_SYNC" = "yes" ]] && passthru docker-sync start
+if [[ "$APP_BUILD" = "dynamic" && "$USE_DOCKER_SYNC" = "yes" ]]; then
+    passthru docker-sync start
 fi
