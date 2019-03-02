@@ -7,8 +7,6 @@ function task_wordpress_install()
     passthru "bin/wp-cli.phar core download \
         --path='${WORDPRESS_INSTALL_DIRECTORY}'"
 
-    task "skeleton:apply"
-
     passthru "bin/wp-cli.phar core install \
         --path='${WORDPRESS_INSTALL_DIRECTORY}' \
         --skip-email \
