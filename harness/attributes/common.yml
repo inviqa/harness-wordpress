@@ -40,6 +40,12 @@ attributes.default:
       nonce:
         key: "OxQ!`dDcBNPGX(El->cvj`r3C|UCwB8bBOFz~jZkS=Y~eI+f~15})ClL0Ne-Q.w0"
         salt: "8CGF+nc*b}mv;=WIMgN{cEVbmEBPQ([X7?g yYc<ER| Xc+5+P,7/ji| Vw$VXg9"
+
+  node:
+    # only set this attribute if you wish to override the supplied node version, by default
+    # the supplied version will be the current LTS.
+    version: null
+
   php:
     version: 7.2
     ini:
