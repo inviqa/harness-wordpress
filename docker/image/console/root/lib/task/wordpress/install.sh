@@ -4,8 +4,10 @@ function task_wordpress_install()
 {
     task "mysql:available"
 
-    passthru "bin/wp-cli.phar core download \
-        --path='${WORDPRESS_INSTALL_DIRECTORY}'"
+    if [ ! -f "${WORDPRESS_INSTALL_DIRECTORY}/index.php" ]; then
+        passthru "bin/wp-cli.phar core download \
+            --path='${WORDPRESS_INSTALL_DIRECTORY}'"
+    fi
 
     passthru "bin/wp-cli.phar core install \
         --path='${WORDPRESS_INSTALL_DIRECTORY}' \
