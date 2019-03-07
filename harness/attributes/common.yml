@@ -41,6 +41,29 @@ attributes.default:
         key: "OxQ!`dDcBNPGX(El->cvj`r3C|UCwB8bBOFz~jZkS=Y~eI+f~15})ClL0Ne-Q.w0"
         salt: "8CGF+nc*b}mv;=WIMgN{cEVbmEBPQ([X7?g yYc<ER| Xc+5+P,7/ji| Vw$VXg9"
 
+  backend:
+    path: /app
+    build:
+      when: -f "composer.json"
+      steps:
+        - task "wp-cli:install"
+        - task "composer:install"
+    init:
+      steps:
+        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' option update siteurl $(eval echo $WORDPRESS_URL)"
+        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' option update home $(eval echo $WORDPRESS_URL)"
+        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' user create admin admin@localhost.local --role=administrator --user_pass=admin123 || exit 0"
+        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' user update admin --role=administrator --user_pass=admin123 --skip-email"
+
+  frontend:
+    path: /app
+    watch: node_modules/.bin/gulp serve
+    build:
+      when: -f "package.json"
+      steps:
+        - run "npm install"
+        - run "node_modules/.bin/gulp build"
+
   node:
     # only set this attribute if you wish to override the supplied node version, by default
     # the supplied version will be the current LTS.

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function task_wordpress_cli()
+function task_wp-cli_install()
 {
   if [ ! -f bin/wp-cli.phar ]; then
     mkdir -p bin

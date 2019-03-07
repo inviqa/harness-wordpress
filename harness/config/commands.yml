@@ -71,3 +71,16 @@ command('assets upload'):
   exec: |
     #!bash(workspace:/)|@
     passthru ws.aws s3 sync @('assets.local') @('assets.remote')
+
+command('frontend build'):
+  exec: |
+    #!bash(harness:/)|@
+    docker-compose -p @('namespace') exec -u build console bash -i -c 'app build:frontend'
+command('frontend watch'):
+  exec: |
+    #!bash(harness:/)|@
+    docker-compose -p @('namespace') exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.watch')'
+command('frontend console'):
+  exec: |
+    #!bash(harness:/)|@
+    docker-compose -p @('namespace') exec -u build console bash -i -c 'cd @('frontend.path'); bash'

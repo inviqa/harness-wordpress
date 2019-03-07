@@ -2,7 +2,8 @@
 
 function task_build()
 {
-    task "wordpress:cli"
     task "skeleton:apply"
-    task "composer:install"
+
+    task "build:backend"
+    task "build:frontend"
 }

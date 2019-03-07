@@ -15,7 +15,6 @@ function task_assets_apply()
 
         if [ -f "$DATABASE_FILE" ]; then
             run "zcat $DATABASE_FILE | mysql -h $DB_HOST -u root -p$DB_ROOT_PASS $DB_NAME"
-            task "wordpress:configure"
         else
             task "wordpress:install"
         fi
