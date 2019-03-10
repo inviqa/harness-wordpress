@@ -1,4 +1,4 @@
-FROM my127/wordpress-console:{{ @('php.version') }}-fpm-stretch
+FROM my127/wordpress:{{ @('php.version') }}-fpm-stretch-console
 
 COPY .my127ws/docker/image/console/root /
 RUN chown -R build:build /home/build
