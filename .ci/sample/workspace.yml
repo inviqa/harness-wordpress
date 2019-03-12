@@ -1,0 +1,8 @@
+workspace('blog'):
+  description: generated local workspace for blog.
+  harness: inviqa/wordpress
+
+attribute('aws.bucket'): null
+attribute('app.repository'): null
+attribute('aws.id'): null
+attribute('aws.key'): null
