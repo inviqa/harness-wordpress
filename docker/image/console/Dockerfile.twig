@@ -1,4 +1,4 @@
-FROM my127/wordpress:{{ @('php.version') }}-fpm-stretch-console
+FROM {{ @('docker.image.console') }}
 
 COPY .my127ws/docker/image/console/root /
 RUN chown -R build:build /home/build
@@ -31,4 +31,3 @@ VOLUME /home/build/skeleton
 {% endif %}
 
 ENTRYPOINT /entrypoint.sh
-WORKDIR /app
