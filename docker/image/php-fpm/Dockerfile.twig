@@ -1,4 +1,4 @@
-FROM my127/wordpress:{{ @('php.version') }}-fpm-stretch
+FROM {{ @('docker.image.php-fpm') }}
 
 WORKDIR /app
 

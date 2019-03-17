@@ -9,60 +9,40 @@ attributes.default:
     build: dynamic
 
     # mode - development|production
-    #   development - additional tooling is made available and wordpress is run in development mode
-    #   production  - leaner images with less tooling and wordpress is run in production mode
+    #   development - additional tooling is made available and magento is run in development mode
+    #   production  - leaner images with less tooling and magento is run in production mode
     mode: development
 
   docker-sync: yes
+
+  docker:
+    image:
+      console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
+      php-fpm: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch'
 
   composer:
     auth:
       basic: ~
       github: ~
 
-  nginx:
-    public_directory: /app/public/
-
-  wordpress:
-    install_directory: /app/public/
-    url: https://${APP_HOST}/
-    url_prefix: /
-    security:
-      auth:
-        key: "f+S  *gZCFV$#[fHQR2ReTpG/[qCvQE=kg[DzSgo)59p+EA]p-wzT1OD~EcUgkDe"
-        salt: "N6%QZA>6SV+!MEE^x_zt,(&G7D4)sP@&{zT?=+/DyW-d4msRd_w4ZsJ0_Btq4,:+"
-      secure_auth:
-        key: "w~yiq>=@]_:rtU^&-D^rfJk/.KfiGk+*>BSV%MOGa)48v!/9B6uh&Vv+1Z%:D|2["
-        salt: "zO|~#aQ#90z=NA<4NJ4j^PB$c`27~ Rd3~+7Y7:WrQ+yL;c*T55()Wk}0WI`2v?I"
-      logged_in:
-        key: "5D]-TZ<1|||s_-@@M?|z5S>[?FxF<}bJPatoYYk|.4fN+o{IR?`6tMFx].a9Burl"
-        salt: ">7{Jc.XB;C9^n2H0~{2eb..o[9UH&|MgXVU>9&m-l3+wEMGenhdoS_|a`eIR)|V7"
-      nonce:
-        key: "OxQ!`dDcBNPGX(El->cvj`r3C|UCwB8bBOFz~jZkS=Y~eI+f~15})ClL0Ne-Q.w0"
-        salt: "8CGF+nc*b}mv;=WIMgN{cEVbmEBPQ([X7?g yYc<ER| Xc+5+P,7/ji| Vw$VXg9"
-
   backend:
     path: /app
     build:
       when: -f "composer.json"
       steps:
-        - task "wp-cli:install"
         - task "composer:install"
+    install:
+      steps: []
     init:
-      steps:
-        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' option update siteurl $(eval echo $WORDPRESS_URL)"
-        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' option update home $(eval echo $WORDPRESS_URL)"
-        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' user create admin admin@localhost.local --role=administrator --user_pass=admin123 || exit 0"
-        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' user update admin --role=administrator --user_pass=admin123 --skip-email"
+      steps: []
 
   frontend:
     path: /app
-    watch: node_modules/.bin/gulp serve
+    watch: npm watch
     build:
       when: -f "package.json"
       steps:
         - run "npm install"
-        - run "node_modules/.bin/gulp build"
 
   node:
     # only set this attribute if you wish to override the supplied node version, by default
@@ -70,7 +50,7 @@ attributes.default:
     version: null
 
   php:
-    version: 7.2
+    version: 7.3
     ini:
       memory_limit: 1024M
     ext-xdebug:
@@ -87,9 +67,9 @@ attributes.default:
 
   database:
     host: mysql
-    user: wordpress
-    pass: wordpress
-    name: wordpress
+    user: app
+    pass: app
+    name: app
     root_pass: DV6RdNY3QcFsBk7V
 
   domain: my127.site
